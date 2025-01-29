@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>>DigimartID - Layanan Untuk Mengerjakan Coding atau Tugas Kalian.</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @media (min-width: 768px) {
+            #menu-toggle {
+                display: none;
+            }
+            #desktop-name {
+                display: inline;
+            }
+        }
+        @media (max-width: 767px) {
+            #desktop-name {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="flex">
+        <!-- Sidebar -->
+        <div id="sidebar" class="fixed left-0 top-0 h-full w-64 bg-blue-600 text-white p-4 transform -translate-x-full transition-transform">
+            <button id="close-menu" class="text-white text-2xl mb-4">✖</button>
+            <div class="text-center mb-4">
+                <img src="img/logo.jpg" alt="Logo" class="w-24 mx-auto">
+            </div>
+            <ul class="space-y-4">
+                <li><a href="#home" class="block text-white">Home</a></li>
+                <li><a href="#layanan" class="block text-white">Layanan</a></li>
+                <li><a href="#pesan" class="block text-white">Pesan</a></li>
+            </ul>
+        </div>
+        
+        <!-- Navbar -->
+        <nav class="bg-blue-600 p-4 text-white flex items-center justify-between w-full">
+            <button id="menu-toggle" class="text-white text-2xl">☰</button>
+            <span id="desktop-name" class="text-lg font-bold">DigimartID</span>
+            <div class="space-x-4 hidden md:flex">
+                <a href="#home" class="text-white">Home</a>
+                <a href="#layanan" class="text-white">Layanan</a>
+                <a href="#pesan" class="text-white">Pesan</a>
+            </div>
+        </nav>
+    </div>
+    
+    <header id="home" class="text-center py-10">
+        <h1 class="text-3xl font-bold">Butuh Bantuan dengan Coding atau Tugas Anda?</h1>
+        <p class="text-lg text-gray-600">Kami siap membantu Anda menyelesaikan tugas dengan cepat dan profesional.</p>
+    </header>
+    
+    <section id="layanan" class="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">
+        <h2 class="text-2xl font-bold mb-4">Layanan Kami</h2>
+        <ul class="list-disc list-inside text-gray-700">
+            <li>Pengerjaan coding berbagai bahasa pemrograman</li>
+            <li>Joki tugas sekolah dan kuliah</li>
+            <li>Pembuatan website dan aplikasi</li>
+            <li>Penyelesaian bug dan optimasi kode</li>
+        </ul>
+    </section>
+    
+    <section id="pesan" class="max-w-4xl mx-auto mt-6 p-6 bg-white shadow-lg rounded-lg">
+        <h2 class="text-2xl font-bold mb-4">Pesan Sekarang</h2>
+        <form id="orderForm" class="space-y-4">
+            <input type="text" id="name" placeholder="Nama Anda" class="w-full p-2 border rounded">
+            <input type="email" id="email" placeholder="Email Anda" class="w-full p-2 border rounded">
+            <textarea id="task" placeholder="Deskripsi tugas Anda" class="w-full p-2 border rounded"></textarea>
+            <button type="submit" class="bg-blue-600 text-white p-2 rounded w-full">Kirim</button>
+        </form>
+    </section>
+
+    <footer class="text-center p-4 mt-6 bg-gray-800 text-white">
+        &copy; 2025 DigimartID. Semua Hak Dilindungi.
+    </footer>
+    
+    <script>
+        document.getElementById('orderForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            alert('Pesanan Anda telah dikirim! Kami akan segera menghubungi Anda.');
+        });
+        
+        document.getElementById('menu-toggle').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('-translate-x-full');
+        });
+        
+        document.getElementById('close-menu').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.add('-translate-x-full');
+        });
+    </script>
+</body>
+</html>
