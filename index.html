@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="theme-color" content="#0f172a">
+    <title>DigimartID - Layanan Untuk Mengerjakan Coding atau Tugas Kalian.</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.5/swiper-bundle.min.css">
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        }
+
+        .glass-nav {
+            background: rgba(15, 23, 42, 0.98);
+            backdrop-filter: blur(12px);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(59, 130, 246, 0.4);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            height: 100%;
+            transform: translateZ(0);
+            backface-visibility: hidden;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        .swiper-pagination-bullet {
+            background: rgba(255, 255, 255, 0.3);
+            opacity: 1;
+            width: 8px;
+            height: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .swiper-pagination-bullet-active {
+            background: #3b82f6;
+            width: 24px;
+            border-radius: 4px;
+        }
+
+        @media (max-width: 640px) {
+            .testimonial-card {
+                padding: 1.5rem;
+            }
+
+            .testimonial-card:hover {
+                transform: none;
+            }
+        }
+
+        .faq-item {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+            opacity: 1;
+        }
+
+        .faq-toggle {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .faq-item.active .faq-toggle {
+            transform: rotate(45deg);
+        }
+
+        .glow-effect {
+            position: relative;
+        }
+
+        .glow-effect::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #3b82f6, #60a5fa);
+            border-radius: inherit;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .glow-effect:hover::after {
+            opacity: 0.3;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-900">
+    <nav class="fixed w-full z-50 glass-nav">
+        <div class="container mx-auto px-4 flex items-center justify-between h-16">
+            <div class="text-lg font-medium text-white flex items-center space-x-3">
+                <img src="img/logo.jpg" alt="Logo" class="h-8">
+                <span>DigimartID</span>
+            </div>
+
+            <!-- Menu untuk desktop -->
+            <div class="hidden md:flex space-x-6">
+                <a href="#features" class="text-white hover:text-gray-300">Feature</a>
+                <a href="#feedback" class="text-white hover:text-gray-300">Feedback</a>
+                <a href="#faq" class="text-white hover:text-gray-300">FAQ</a>
+            </div>
+
+            <!-- Hamburger menu untuk mobile -->
+            <button id="hamburger" class="md:hidden text-white text-2xl">
+                &#9776;
+            </button>
+        </div>
+    </nav>
+
+    <!-- Sidebar Menu untuk Mobile -->
+    <div id="mobile-menu"
+        class="fixed top-0 left-0 w-64 h-full bg-gray-900 transform -translate-x-full transition-transform duration-300 z-50 md:hidden">
+        <div class="flex items-center space-x-3 p-4">
+            <img src="img/logo.jpg" alt="Logo" class="h-8">
+            <span class="text-white text-lg font-medium">DigimartID</span>
+        </div>
+        <button id="close-menu" class="absolute top-4 right-4 text-white text-2xl">&times;</button>
+        <ul class="mt-8 space-y-6 text-white text-lg px-6">
+            <li><a href="#features" class="block py-2">Feature</a></li>
+            <li><a href="#feedback" class="block py-2">Feedback</a></li>
+            <li><a href="#faq" class="block py-2">FAQ</a></li>
+        </ul>
+    </div>
+
+    <header class="gradient-bg text-white min-h-screen flex items-center justify-center pt-16">
+        <div class="container mx-auto px-4 text-center">
+            <div class="max-w-3xl mx-auto">
+                <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight" data-aos="fade-up" data-aos-delay="100">
+                    Welcome Everyone
+                </h1>
+                <p class="text-lg text-gray-300 mb-8 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="200">
+                    We Provide Jockey Services.
+                </p>
+                <a href="/documentation"
+                    class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg text-lg font-medium transition-all duration-300 transform hover:-translate-y-1 shadow-lg hover:shadow-xl glow-effect"
+                    data-aos="fade-up" data-aos-delay="300">
+                    Get Started
+                </a>
+            </div>
+        </div>
+    </header>
+    <section id="features" class="py-24 gradient-bg text-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4" data-aos="fade-up">Premium API Features</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="100">
+                    Everything you need to build and scale your application
+                </p>
+            </div>
+            <div class="max-w-6xl mx-auto grid md:grid-cols-3 gap-8">
+                <div class="glass-card p-8 rounded-2xl" data-aos="fade-up">
+                    <i class="ri-terminal-line text-blue-400 text-3xl mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-3">Coding</h3>
+                    <p class="text-gray-400">Coding in various programming languages.</p>
+                </div>
+                <div class="glass-card p-8 rounded-2xl" data-aos="fade-up" data-aos-delay="100">
+                    <i class="ri-file-word-line text-blue-400 text-3xl mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-3">Word</h3>
+                    <p class="text-gray-400">We provide word jockey services.</p>
+                </div>
+                <div class="glass-card p-8 rounded-2xl" data-aos="fade-up" data-aos-delay="200">
+                    <i class="ri-file-excel-line text-blue-400 text-3xl mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-3">Excel</h3>
+                    <p class="text-gray-400">We provide Excel services.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="feedback" class="py-24 gradient-bg text-white overflow-hidden">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4" data-aos="fade-up">Feedback Spotlight</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="100">
+                    Join thousands of developers who trust our Services platform
+                </p>
+            </div>
+            <div class="max-w-6xl mx-auto" data-aos="fade-up">
+                <div class="swiper testimonialSwiper">
+                    <div class="swiper-wrapper">
+                        <!-- Testimonials will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="faq" class="py-24 gradient-bg text-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-3xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center" data-aos="fade-up">Frequently Asked
+                    Questions</h2>
+                <div class="space-y-4">
+                    <div class="faq-item p-6 rounded-lg cursor-pointer" data-aos="fade-up">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-lg font-medium">What services are offered?</h3>
+                            <button class="faq-toggle text-blue-400 text-2xl">+</button>
+                        </div>
+                        <div class="faq-answer pt-4">
+                            <p class="text-gray-400">We offer coding services, task jockeying, website creation, and
+                                debugging.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item p-6 rounded-lg cursor-pointer" data-aos="fade-up" data-aos-delay="100">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-lg font-medium">How long does the assignment take?</h3>
+                            <button class="faq-toggle text-blue-400 text-2xl">+</button>
+                        </div>
+                        <div class="faq-answer pt-4">
+                            <p class="text-gray-400">Processing time depends on the difficulty of the task, usually in
+                                hours or days.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item p-6 rounded-lg cursor-pointer" data-aos="fade-up" data-aos-delay="300">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-lg font-medium">How to place an order?</h3>
+                            <button class="faq-toggle text-blue-400 text-2xl">+</button>
+                        </div>
+                        <div class="faq-answer pt-4">
+                            <p class="text-gray-400">You can press the button above to fill out the order form or
+                                contact us directly.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer class="gradient-bg text-white py-16 border-t border-gray-800">
+        <div class="container mx-auto px-4">
+            <div class="max-w-6xl mx-auto grid md:grid-cols-4 gap-12">
+                <div class="space-y-4">
+                    <div class="text-lg font-medium text-white flex items-center space-x-3">
+                        <img src="img/logo.jpg" alt="Logo" class="h-8">
+                        <span class="font-medium text-lg">DigimartID</span>
+                    </div>
+                    <p class="text-gray-400 text-sm">Follow our social media to find out more information.</p>
+                    <div class="flex space-x-4">
+                        <a href="https://github.com/digimart-id-2k25" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="ri-github-fill text-xl"></i>
+                        </a>
+                        <a href="https://www.instagram.com/digi.mart.id/"
+                            class="text-gray-400 hover:text-white transition-colors">
+                            <i class="ri-instagram-fill text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-sm font-semibold uppercase tracking-wider mb-4">Support</h4>
+                    <ul class="space-y-2">
+                        <li><a href="https://wa.me/message/"
+                                class="text-gray-400 hover:text-white transition-colors">Help Center</a></li>
+                        <li><a href="https://whatsapp.com/channel/"
+                                class="text-gray-400 hover:text-white transition-colors">Community</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-sm font-semibold uppercase tracking-wider mb-4">Other</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#features" class="text-gray-400 hover:text-white transition-colors">Feature</a>
+                        </li>
+                        <li><a href="#feedback" class="text-gray-400 hover:text-white transition-colors">FeedBack</a>
+                        </li>
+                        <li><a href="#faq" class="text-gray-400 hover:text-white transition-colors">FAQ</a></li>
+                        <li><a href="/contributor"
+                                class="text-gray-400 hover:text-white transition-colors">Contribution</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-sm font-semibold uppercase tracking-wider mb-4">Legal</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Terms of Service</a>
+                        </li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Security</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center">
+                <p class="text-gray-400 text-sm">&copy; 2025 DigimartID. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.5/swiper-bundle.min.js"></script>
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const closeMenu = document.getElementById('close-menu');
+
+        hamburger.addEventListener('click', () => {
+            if (window.innerWidth < 768) {
+                mobileMenu.classList.remove('-translate-x-full');
+                mobileMenu.classList.add('translate-x-0');
+            }
+        });
+
+        closeMenu.addEventListener('click', () => {
+            mobileMenu.classList.remove('translate-x-0');
+            mobileMenu.classList.add('-translate-x-full');
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 768) {
+                mobileMenu.classList.add('-translate-x-full');
+            }
+        });
+
+        AOS.init({
+            duration: 800,
+            offset: 100,
+            once: true,
+            mirror: false
+        });
+
+        const testimonials = [
+            {
+                name: "Eka Saputra",
+                avatar: "img/customer/Eka Saputra.jpeg",
+                text: "Pelayanan sangat cepat dan hasilnya memuaskan! Terima kasih!"
+            },
+            {
+                name: "Rizki Juliansyah",
+                avatar: "img/customer/Rizki Juliansyah.jpeg",
+                text: "Sangat membantu! Tugas saya selesai tepat waktu dan hasilnya luar biasa."
+            },
+            {
+                name: "Mahardika",
+                avatar: "img/customer/Mahardika.jpeg",
+                text: "Sangat membantu! Tugas saya selesai tepat waktu dan hasilnya luar biasa."
+            },
+            {
+                name: "Desi Wulansari",
+                avatar: "img/customer/Desi Wulansari.jpeg",
+                text: "Sangat Memuaskan Hasil nya, Terima Kaish."
+            }
+        ];
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const swiperWrapper = document.querySelector('.swiper-wrapper');
+            testimonials.forEach(testimonial => {
+                const slide = document.createElement('div');
+                slide.className = 'swiper-slide';
+
+                const truncateText = (text, limit) => {
+                    if (text.length > limit) {
+                        return text.substring(0, limit) + '...';
+                    }
+                    return text;
+                };
+
+                const isValidUrl = (string) => {
+                    try {
+                        new URL(string);
+                        return true;
+                    } catch (_) {
+                        return false;
+                    }
+                };
+
+                const avatarContent = isValidUrl(testimonial.avatar)
+                    ? `<img src="${testimonial.avatar}" alt="${testimonial.name}" class="w-full h-full object-cover rounded-full">`
+                    : `<span class="text-white font-medium">${testimonial.avatar}</span>`;
+
+                slide.innerHTML = `
+                        <div class="testimonial-card p-8 rounded-2xl">
+                            <div class="flex items-start space-x-4">
+                                <div class="w-12 h-12 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 flex items-center justify-center flex-shrink-0">
+                                    ${avatarContent}
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-lg">${testimonial.name}</h4>
+                                    <p class="text-gray-400 leading-relaxed">${truncateText(testimonial.text, 90)}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                swiperWrapper.appendChild(slide);
+            });
+
+            const swiper = new Swiper('.testimonialSwiper', {
+                slidesPerView: 1,
+                spaceBetween: 30,
+                centeredSlides: true,
+                loop: true,
+                speed: 500,
+                autoplay: {
+                    delay: 2000,
+                    disableOnInteraction: false,
+                },
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+                effect: 'slide',
+                breakpoints: {
+                    640: {
+                        slidesPerView: 2,
+                    },
+                    1024: {
+                        slidesPerView: 3,
+                    }
+                }
+            });
+        });
+
+        document.querySelectorAll('.faq-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const wasActive = item.classList.contains('active');
+
+                document.querySelectorAll('.faq-item').forEach(otherItem => {
+                    otherItem.classList.remove('active');
+                });
+
+                if (!wasActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
