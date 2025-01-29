@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DigimartID - Team</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white">
+    <nav class="bg-gray-800 p-4 shadow-lg">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <img src="img/logo.jpg" alt="DigimartID Logo" class="w-10 h-10">
+                <h1 class="text-2xl font-bold">DigimartID</h1>
+            </div>
+            <div class="hidden md:flex space-x-6">
+                <a href="#" class="text-white hover:text-gray-400">Home</a>
+                <a href="#" class="text-white hover:text-gray-400">About</a>
+                <a href="#" class="text-white hover:text-gray-400">Services</a>
+                <a href="#" class="text-white hover:text-gray-400">Contact</a>
+            </div>
+            <div class="md:hidden">
+                <button id="menu-toggle" class="text-white focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div id="sidebar" class="fixed top-0 left-0 w-64 h-full bg-gray-800 transform -translate-x-full transition-transform duration-300 p-4">
+        <button id="close-sidebar" class="text-white text-xl absolute top-4 right-4">&times;</button>
+        <ul class="mt-10 space-y-4">
+            <li><a href="#" class="text-white block hover:text-gray-400">Home</a></li>
+            <li><a href="#" class="text-white block hover:text-gray-400">About</a></li>
+            <li><a href="#" class="text-white block hover:text-gray-400">Services</a></li>
+            <li><a href="#" class="text-white block hover:text-gray-400">Contact</a></li>
+        </ul>
+    </div>
+    
+    <section class="max-w-6xl mx-auto mt-10 p-8 bg-gray-800 shadow-xl rounded-lg">
+        <h2 class="text-3xl font-bold text-center mb-6">Meet Our Team</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <div class="bg-gray-700 p-6 rounded-lg shadow-lg hover:shadow-2xl transition duration-300 text-center">
+                <img src="img/collaborators/Robby Ali Juliansyah.jpeg" alt="Robby Ali Juliansyah" class="w-28 h-28 rounded-full mx-auto border-4 border-gray-600">
+                <h3 class="font-bold text-lg mt-4">Robby Ali Juliansyah</h3>
+                <p class="text-gray-400">FullStack Developer</p>
+            </div>
+            <div class="bg-gray-700 p-6 rounded-lg shadow-lg hover:shadow-2xl transition duration-300 text-center">
+                <img src="img/collaborators/Zaini Dahlan.jpeg" alt="Zaini Dahlan" class="w-28 h-28 rounded-full mx-auto border-4 border-gray-600">
+                <h3 class="font-bold text-lg mt-4">Zaini Dahlan</h3>
+                <p class="text-gray-400">Frontend Developer</p>
+            </div>
+            <div class="bg-gray-700 p-6 rounded-lg shadow-lg hover:shadow-2xl transition duration-300 text-center">
+                <img src="img/collaborators/profie.jpg" alt="Iqbal Rizki Maulana" class="w-28 h-28 rounded-full mx-auto border-4 border-gray-600">
+                <h3 class="font-bold text-lg mt-4">Iqbal Rizki Maulana</h3>
+                <p class="text-gray-400">Backend Developer</p>
+            </div>
+            <div class="bg-gray-700 p-6 rounded-lg shadow-lg hover:shadow-2xl transition duration-300 text-center">
+                <img src="img/collaborators/Yudha Adi Nugraha.jpeg" alt="Yudha Adi Nugraha" class="w-28 h-28 rounded-full mx-auto border-4 border-gray-600">
+                <h3 class="font-bold text-lg mt-4">Yudha Adi Nugraha</h3>
+                <p class="text-gray-400">Desainer</p>
+            </div>
+            <div class="bg-gray-700 p-6 rounded-lg shadow-lg hover:shadow-2xl transition duration-300 text-center">
+                <img src="img/collaborators/Raihan Saputra.jpeg" alt="Raihan Saputra" class="w-28 h-28 rounded-full mx-auto border-4 border-gray-600">
+                <h3 class="font-bold text-lg mt-4">Raihan Saputra</h3>
+                <p class="text-gray-400">Frontend Developer</p>
+            </div>
+            <div class="bg-gray-700 p-6 rounded-lg shadow-lg hover:shadow-2xl transition duration-300 text-center">
+                <img src="img/collaborators/Denis Setiawan Pratama.jpeg" alt="Denis Setiawan Pratama" class="w-28 h-28 rounded-full mx-auto border-4 border-gray-600">
+                <h3 class="font-bold text-lg mt-4">Denis Setiawan Pratama</h3>
+                <p class="text-gray-400">Desainer</p>
+            </div>
+            <div class="bg-gray-700 p-6 rounded-lg shadow-lg hover:shadow-2xl transition duration-300 text-center">
+                <img src="img/collaborators/Faisal Mahfuzh Afrizal.jpeg" alt="Faisal Mahfuzh Afrizal" class="w-28 h-28 rounded-full mx-auto border-4 border-gray-600">
+                <h3 class="font-bold text-lg mt-4">Faisal Mahfuzh Afrizal</h3>
+                <p class="text-gray-400">Frontend Developer</p>
+            </div>
+        </div>
+    </section>
+    
+    <footer class="bg-gray-800 p-4 mt-10 text-center text-gray-400">
+        <p>&copy; 2025 DigimartID. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.getElementById('menu-toggle').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('-translate-x-full');
+        });
+        document.getElementById('close-sidebar').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.add('-translate-x-full');
+        });
+    </script>
+</body>
+</html>
