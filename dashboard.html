@@ -44,6 +44,15 @@
                 <a href="#home" class="text-white">Home</a>
                 <a href="#layanan" class="text-white">Layanan</a>
                 <a href="#pesan" class="text-white">Pesan</a>
+                <div class="relative">
+                    <img id="profile-btn" src="img/logo.jpg" alt="Profile" class="w-10 h-10 rounded-full cursor-pointer">
+                    <div id="dropdown-menu" class="absolute right-0 mt-2 w-40 bg-white text-black rounded shadow-lg hidden">
+                        <a href="login.html" id="login-link" class="block px-4 py-2 hover:bg-gray-200">Login</a>
+                        <a href="register.html" id="register-link" class="block px-4 py-2 hover:bg-gray-200">Register</a>
+                        <a href="settings.html" id="settings-link" class="block px-4 py-2 hover:bg-gray-200 hidden">Settings</a>
+                        <button id="logout-btn" class="block w-full text-left px-4 py-2 hover:bg-gray-200 hidden">Logout</button>
+                    </div>
+                </div>
             </div>
         </nav>
     </div>
@@ -68,9 +77,15 @@
         <form id="orderForm" class="space-y-4">
             <input type="text" id="name" placeholder="Nama Anda" class="w-full p-2 border rounded">
             <input type="email" id="email" placeholder="Email Anda" class="w-full p-2 border rounded">
+            <input type="text" id="whatsapp" placeholder="Nomor WhatsApp" class="w-full p-2 border rounded">
             <textarea id="task" placeholder="Deskripsi tugas Anda" class="w-full p-2 border rounded"></textarea>
             <button type="submit" class="bg-blue-600 text-white p-2 rounded w-full">Kirim</button>
         </form>
+    </section>
+
+    <section id="order-status" class="max-w-4xl mx-auto mt-6 p-6 bg-white shadow-lg rounded-lg">
+        <h2 class="text-2xl font-bold mb-4">Status Pesanan Anda</h2>
+        <div id="orderList" class="text-gray-700"></div>
     </section>
 
     <footer class="text-center p-4 mt-6 bg-gray-800 text-white">
@@ -78,10 +93,99 @@
     </footer>
     
     <script>
-        document.getElementById('orderForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            alert('Pesanan Anda telah dikirim! Kami akan segera menghubungi Anda.');
+        document.getElementById('profile-btn').addEventListener('click', function() {
+            document.getElementById('dropdown-menu').classList.toggle('hidden');
         });
+
+        function checkLoginStatus() {
+            const isLoggedIn = localStorage.getItem('isAdmin');
+            if (isLoggedIn) {
+                document.getElementById('login-link').classList.add('hidden');
+                document.getElementById('register-link').classList.add('hidden');
+                document.getElementById('settings-link').classList.remove('hidden');
+                document.getElementById('logout-btn').classList.remove('hidden');
+            } else {
+                document.getElementById('orderForm').innerHTML = '<p class="text-center text-red-500">Anda harus login untuk memesan.</p><a href="login.html" class="block text-center bg-blue-600 text-white p-2 rounded mt-4">Login</a>';
+            }
+        }
+
+        document.getElementById('logout-btn').addEventListener('click', function() {
+            localStorage.removeItem('isAdmin');
+            window.location.reload();
+        });
+
+        document.getElementById('orderForm').addEventListener('submit', function(event) {
+            const isLoggedIn = localStorage.getItem('isAdmin');
+            if (!isLoggedIn) {
+                alert('Anda harus login terlebih dahulu untuk memesan!');
+                event.preventDefault();
+                return;
+            }
+            event.preventDefault();
+            const orders = JSON.parse(localStorage.getItem('orders')) || [];
+            const newOrder = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                whatsapp: document.getElementById('whatsapp').value,
+                task: document.getElementById('task').value,
+                status: 'Pending'
+            };
+            orders.push(newOrder);
+            localStorage.setItem('orders', JSON.stringify(orders));
+            alert('Pesanan Anda telah dikirim!');
+            displayOrders();
+        });
+
+        function getCurrentUserEmail() {
+            return localStorage.getItem('userEmail'); // Simpan email pengguna saat login
+        }
+    
+        function displayOrders() {
+            const isLoggedIn = localStorage.getItem('isAdmin');
+            const userEmail = localStorage.getItem('loggedInUser');
+            const orders = JSON.parse(localStorage.getItem('orders')) || [];
+            const orderList = document.getElementById('orderList');
+    
+            orderList.innerHTML = '';
+    
+            if (!isLoggedIn || !userEmail) {
+                orderList.innerHTML = '<p class="text-gray-600">Silakan login untuk melihat pesanan Anda.</p>';
+                return;
+            }
+    
+            const userOrders = orders.filter(order => order.email === userEmail); // Hanya tampilkan pesanan milik akun yang sedang login
+    
+            if (userOrders.length === 0) {
+                orderList.innerHTML = '<p class="text-gray-600">Anda belum memiliki pesanan.</p>';
+            } else {
+                userOrders.forEach(order => {
+                    orderList.innerHTML += `
+                        <div class="p-4 border-b">
+                            <p><strong>Nama:</strong> ${order.name}</p>
+                            <p><strong>Email:</strong> ${order.email}</p>
+                            <p><strong>WhatsApp:</strong> ${order.whatsapp}</p>
+                            <p><strong>Deskripsi Tugas:</strong> ${order.task}</p>
+                            <p><strong>Status:</strong> ${order.status}</p>
+                        </div>
+                    `;
+                });
+            }
+        }
+    
+        document.getElementById('logout-btn').addEventListener('click', function () {
+            localStorage.removeItem('isAdmin');
+            localStorage.removeItem('loggedInUser'); // Hapus email pengguna saat logout
+            window.location.reload();
+        });
+    
+        window.addEventListener('storage', function (event) {
+            if (event.key === 'orders' || event.key === 'loggedInUser') {
+                displayOrders();
+            }
+        });
+    
+        displayOrders();
+        checkLoginStatus();
         
         document.getElementById('menu-toggle').addEventListener('click', function() {
             document.getElementById('sidebar').classList.toggle('-translate-x-full');

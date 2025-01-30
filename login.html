@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - DigimartID</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex justify-center items-center h-screen">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+        <h2 class="text-2xl font-bold mb-4 text-center">Login</h2>
+        <form id="loginForm" class="space-y-4">
+            <input type="text" id="username" placeholder="Username" class="w-full p-2 border rounded">
+            <input type="password" id="password" placeholder="Password" class="w-full p-2 border rounded">
+            <button type="submit" class="bg-blue-600 text-white p-2 rounded w-full">Login</button>
+        </form>
+        <p class="text-center mt-4">Belum punya akun? <a href="register.html" class="text-blue-600">Register</a></p>
+        <p id="errorMsg" class="text-red-600 text-center mt-2 hidden">Username atau password salah!</p>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (username === 'admin' && password === 'admin123') {
+                localStorage.setItem('isAdmin', 'true');
+                window.location.href = 'pesanan.html';
+                return;
+            }
+
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const foundUser = users.find(user => user.name === username && user.password === password);
+
+            if (foundUser) {
+                localStorage.setItem('isAdmin', 'false');
+                localStorage.setItem('loggedInUser', username);
+                window.location.href = 'dashboard.html';
+            } else {
+                document.getElementById('errorMsg').classList.remove('hidden');
+            }
+        });
+    </script>
+</body>
+</html>

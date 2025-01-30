@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesanan - DigimartID</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6">
+    <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-lg">
+        <h2 class="text-2xl font-bold mb-4">Pesanan Pelanggan</h2>
+        <div id="orderList" class="text-gray-700"></div>
+        <div class="pagination mt-4" id="pagination"></div>
+        <button onclick="logout()" class="bg-red-600 text-white p-2 rounded mt-4">Logout</button>
+    </div>
+    <script>
+        if (!localStorage.getItem('isAdmin')) {
+            window.location.href = 'login.html';
+        }
+
+        const orders = JSON.parse(localStorage.getItem('orders')) || [];
+        const orderList = document.getElementById('orderList');
+        const pagination = document.getElementById('pagination');
+        let currentPage = 1;
+        const ordersPerPage = 5;
+
+        function updateOrders() {
+            orderList.innerHTML = '';
+            pagination.innerHTML = '';
+
+            if (orders.length > 5) {
+                const start = (currentPage - 1) * ordersPerPage;
+                const end = start + ordersPerPage;
+                const paginatedOrders = orders.slice(start, end);
+
+                paginatedOrders.forEach((order, index) => {
+                    orderList.innerHTML += `
+                        <div class="p-4 border-b">
+                            <p><strong>Nama:</strong> ${order.name}</p>
+                            <p><strong>Email:</strong> ${order.email}</p>
+                            <p><strong>WhatsApp:</strong> ${order.whatsapp}</p>
+                            <p><strong>Deskripsi Tugas:</strong> ${order.task}</p>
+                            <p><strong>Status:</strong> ${order.status}</p>
+                            <button onclick="updateStatus(${start + index}, 'Pending')" class="bg-yellow-500 text-white p-1 rounded">Pending</button>
+                            <button onclick="updateStatus(${start + index}, 'Selesai')" class="bg-green-500 text-white p-1 rounded">Selesai</button>
+                            <button onclick="deleteOrder(${start + index})" class="bg-red-500 text-white p-1 rounded">Hapus</button>
+                        </div>
+                    `;
+                });
+
+                const totalPages = Math.ceil(orders.length / ordersPerPage);
+                if (totalPages > 1) {
+                    for (let i = 1; i <= totalPages; i++) {
+                        pagination.innerHTML += `<button onclick="changePage(${i})" class="p-2 mx-1 ${i === currentPage ? 'bg-blue-600 text-white' : 'bg-gray-300'} rounded">${i}</button>`;
+                    }
+                }
+            } else {
+                orders.forEach((order, index) => {
+                    orderList.innerHTML += `
+                        <div class="p-4 border-b">
+                            <p><strong>Nama:</strong> ${order.name}</p>
+                            <p><strong>Email:</strong> ${order.email}</p>
+                            <p><strong>WhatsApp:</strong> ${order.whatsapp}</p>
+                            <p><strong>Deskripsi Tugas:</strong> ${order.task}</p>
+                            <p><strong>Status:</strong> ${order.status}</p>
+                            <button onclick="updateStatus(${index}, 'Pending')" class="bg-yellow-500 text-white p-1 rounded">Pending</button>
+                            <button onclick="updateStatus(${index}, 'Selesai')" class="bg-green-500 text-white p-1 rounded">Selesai</button>
+                            <button onclick="deleteOrder(${index})" class="bg-red-500 text-white p-1 rounded">Hapus</button>
+                        </div>
+                    `;
+                });
+            }
+        }
+
+        function changePage(page) {
+            currentPage = page;
+            updateOrders();
+        }
+
+        function updateStatus(index, status) {
+            orders[index].status = status;
+            localStorage.setItem('orders', JSON.stringify(orders));
+            updateOrders();
+        }
+
+        function deleteOrder(index) {
+            orders.splice(index, 1);
+            localStorage.setItem('orders', JSON.stringify(orders));
+            updateOrders();
+        }
+
+        function logout() {
+            localStorage.removeItem('isAdmin');
+            window.location.href = 'login.html';
+        }
+
+        updateOrders();
+    </script>
+</body>
+</html>
